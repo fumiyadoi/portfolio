@@ -1,0 +1,29 @@
+{
+  "Card": {
+    "description": "Auto imported from components/Card.vue"
+  },
+  "FontSizeButton": {
+    "description": "Auto imported from components/FontSizeButton.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/Navbar.vue"
+  },
+  "NavbarContent": {
+    "description": "Auto imported from components/NavbarContent.vue"
+  },
+  "NavbarEdit": {
+    "description": "Auto imported from components/NavbarEdit.vue"
+  },
+  "NavbarList": {
+    "description": "Auto imported from components/NavbarList.vue"
+  },
+  "NavbarTop": {
+    "description": "Auto imported from components/NavbarTop.vue"
+  },
+  "NuxtLogo": {
+    "description": "Auto imported from components/NuxtLogo.vue"
+  },
+  "Tutorial": {
+    "description": "Auto imported from components/Tutorial.vue"
+  }
+}
