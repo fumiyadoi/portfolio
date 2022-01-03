@@ -57,7 +57,6 @@ export default {
   layout: 'defaultContent',
   data () {
     return {
-      Ref: 'sokudoku-top', /* ここにnavberの戻るボタンの遷移先を入れください（by fumiya 2021.12.5） */
       bookTitle: '',
       body: '',
       trimmed: [],
@@ -79,7 +78,6 @@ export default {
     VueSlider
   },
   async mounted () {
-    console.log(this.$store.state.data.bookPages)
     this.speed = this.$store.state.data.sokudokuSpeed/* スピードをvuexから取得します。 */
     /* 文字サイズを設定します。 */
     if (this.$store.state.data.fontsize === 'small') {
@@ -103,8 +101,8 @@ export default {
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
     this.length = this.trimmed.length
-    this.updateRef()/* navbarの戻るボタンの遷移先の受け渡し */
-    this.updateTitle()/* navbarのタイトルの受け渡し */
+    this.$nuxt.$emit('updateRef', 'sokudoku-top')/* navbarの戻るボタンの遷移先の受け渡し */
+    this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
     /* 速読処理を開始します。 */
     this.play()
   },
@@ -112,12 +110,6 @@ export default {
     this.pause()
   },
   methods: {
-    updateRef () {
-      this.$nuxt.$emit('updateRef', this.Ref)
-    },
-    updateTitle () {
-      this.$nuxt.$emit('updateTitle', this.bookTitle)
-    },
     onSpeedModal () {
       this.pause()
       if (this.modal_class === 'is-active') {
@@ -145,8 +137,8 @@ export default {
       this.isPlay = false
     },
     play () {
+      this.isPlay = true
       this.intervalId = setInterval(() => {
-        this.isPlay = true
         this.changePage()
       }, -49.5 * this.speed + 5049)
     }

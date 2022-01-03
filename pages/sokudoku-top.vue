@@ -78,8 +78,6 @@ export default {
     return {
       bookList: [],
       selectedTitle: undefined,
-      Ref: '/', /* ここにnavberの戻るボタンの遷移先を入れください（by fumiya 2021.12.5） */
-      Title: '速読', /* ここにnavberのタイトルを入れください（by fumiya 2021.12.5） */
       modal_class: '',
       modalStyles: [],
       checkLetters: [],
@@ -103,8 +101,7 @@ export default {
     // this.$store.commit('data/tmp')/* 保存しているページ数をリセットします。 */
     this.bookList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
     this.speed = this.$store.state.data.sokudokuSpeed/* スピードをvuexから取得します。 */
-    this.updateRef()/* navbarの戻るボタンの遷移先の受け渡し */
-    this.updateTitle()/* navbarのタイトルの受け渡し */
+    this.$nuxt.$emit('updateTitle', '速読')/* navbarのタイトルの受け渡し */
     /* これはモーダルのデザインを設定する処理 */
     for (let i = 0; i < this.bookList.length; i++) {
       this.modalStyles.push({
@@ -116,12 +113,6 @@ export default {
     this.selectBook(this.$store.state.data.bookIndex)
   },
   methods: {
-    updateRef () {
-      this.$nuxt.$emit('updateRef', this.Ref)
-    },
-    updateTitle () {
-      this.$nuxt.$emit('updateTitle', this.Title)
-    },
     changeSpeed () {
       this.$store.commit('data/changeSokudokuSpeed', this.speed)
     },

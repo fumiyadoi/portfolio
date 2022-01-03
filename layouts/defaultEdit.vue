@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="main-content-top">
-      <NavbarEdit v-on:componentRef="goBookList" :title="title" :bookTitleInitial="bookTitleInitial" :bookTitle="bookTitle" :bookBodyInitial="bookBodyInitial" :bookBody="bookBody" :isChanged="isChanged" />
+      <NavbarEdit :isChanged="isChanged" />
       <div @click="isClose" class="container_top">
         <Nuxt />
       </div>
@@ -16,12 +16,6 @@ export default {
   name: 'defaultEdit', /* これ入れないとエラー出るので入れてます */
   data () {
     return {
-      ref: '',
-      title: '',
-      bookTitleInitial: '',
-      bookTitle: '',
-      bookBodyInitial: '',
-      bookBody: '',
       isChanged: false
     }
   },
@@ -33,25 +27,14 @@ export default {
   },
   methods: {
     setListener () {
-      this.$nuxt.$on('updateRef', this.setRef1)
-      this.$nuxt.$on('updateTitle', this.setRef2)
-      this.$nuxt.$on('checkChange', this.setRef3)
+      this.$nuxt.$on('checkChange', this.setRef)
     },
-    setRef1 (ref) {
-      this.ref = ref || ''
-    },
-    setRef2 (title) {
-      this.title = title || ''
-    },
-    setRef3 (boolean) {
+    setRef (boolean) {
       if (boolean) {
         this.isChanged = true
       } else {
         this.isChanged = false
       }
-    },
-    goBookList () {
-      this.$router.push(this.ref)
     },
     isClose () {
       this.$nuxt.$emit('isClose')

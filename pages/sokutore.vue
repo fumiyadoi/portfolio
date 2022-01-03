@@ -4,20 +4,10 @@
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
           <div class="tategaki pt-3 pb-1" :class="fontsize">
-            <div class="trimmed-wrapper">
-              <span :style="highlightStyle[0]">{{firstLetter[page]}}</span>
-              <span>{{trimmed[page]}}</span>
-              <span :style="highlightStyle[1]">{{lastLetter[page]}}</span>
-            </div>
-            <div class="trimmed-wrapper">
-              <span :style="highlightStyle[2]">{{firstLetter[page+1]}}</span>
-              <span>{{trimmed[page+1]}}</span>
-              <span :style="highlightStyle[3]">{{lastLetter[page+1]}}</span>
-            </div>
-            <div class="trimmed-wrapper">
-              <span :style="highlightStyle[4]">{{firstLetter[page+2]}}</span>
-              <span>{{trimmed[page+2]}}</span>
-              <span :style="highlightStyle[5]">{{lastLetter[page+2]}}</span>
+            <div v-for="i in 3" :key="i" class="trimmed-wrapper">
+              <span :style="highlightStyle[(i - 1) * 2]">{{firstLetter[page + (i - 1)]}}</span>
+              <span>{{trimmed[page + (i - 1)]}}</span>
+              <span :style="highlightStyle[(i - 1) * 2 + 1]">{{lastLetter[page + (i - 1)]}}</span>
             </div>
           </div>
           <div class="is-size-7 has-text-centered">{{(page / 3 + 1) +'/'+length}}</div>
@@ -38,7 +28,6 @@ export default {
   layout: 'defaultContent',
   data () {
     return {
-      Ref: 'sokutore-top', /* ここにnavberの戻るボタンの遷移先を入れください（by fumiya 2021.12.5） */
       bookTitle: '',
       body: '',
       trimmed: [],
@@ -62,12 +51,12 @@ export default {
     } else {
       this.fontsize = 'is-size-6-sokutore'
     }
-    this.updateRef()/* navbarの戻るボタンの遷移先の受け渡し */
-    this.updateTitle()/* navbarのタイトルの受け渡し */
     const bookList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
     const bookContent = this.$store.state.data.bookContent.concat(this.$store.state.data.userBookContent)
     this.bookTitle = bookList[this.$store.state.data.bookIndex]
     this.body = bookContent[this.$store.state.data.bookIndex]
+    this.$nuxt.$emit('updateRef', 'sokutore-top')/* navbarの戻るボタンの遷移先の受け渡し */
+    this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
     /* 本の中身を40文字ずつに分割します */
     for (let i = 0; i < this.body.length / 40; i++) {
       if (i === Math.floor(this.body.length / 40)) {
@@ -80,9 +69,6 @@ export default {
         this.lastLetter.push(this.body.charAt((i + 1) * 40 - 1))
       }
     }
-    console.log(this.firstLetter)
-    console.log(this.trimmed)
-    console.log(this.lastLetter)
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][1]
     this.length = Math.ceil(this.trimmed.length / 3)
@@ -93,12 +79,6 @@ export default {
     clearInterval(this.intervalId)
   },
   methods: {
-    updateRef () {
-      this.$nuxt.$emit('updateRef', this.Ref)
-    },
-    updateTitle () {
-      this.$nuxt.$emit('updateTitle', this.bookTitle)
-    },
     nextPage () {
       if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][1] / 3 < this.length - 1) {
         this.$store.commit('data/changePage', 1)

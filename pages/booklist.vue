@@ -42,24 +42,20 @@ export default {
   layout: 'defaultList',
   data () {
     return {
-      Ref: '', /* ここにnavberの戻るボタンの遷移先を入れください（by fumiya 2021.12.5） */
       commonList: this.$store.state.data.bookList,
       userList: this.$store.state.data.userBookList,
       anyBook: false
     }
   },
   async mounted () {
-    this.Ref = this.$store.state.data.backIdentifier
+    const Ref = this.$store.state.data.backIdentifier
+    this.$nuxt.$emit('updateRef', Ref)/* navbarの戻るボタンの遷移先の受け渡し */
     this.$store.commit('data/falseFlag')
-    this.updateRef()/* navbarの戻るボタンの遷移先の受け渡し */
     if (this.userList.length > 0) {
       this.anyBook = true
     }
   },
   methods: {
-    updateRef () {
-      this.$nuxt.$emit('updateRef', this.Ref)
-    },
     goAdd () {
       this.$router.push('bookedit')
     },

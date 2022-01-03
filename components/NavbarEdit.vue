@@ -47,26 +47,6 @@ export default {
     LeftArrow
   },
   props: {
-    title: {
-      type: String,
-      default: ''
-    },
-    bookTitleInitial: {
-      type: String,
-      default: ''
-    },
-    bookTitle: {
-      type: String,
-      default: ''
-    },
-    bookBodyInitial: {
-      type: String,
-      default: ''
-    },
-    bookBody: {
-      type: String,
-      default: ''
-    },
     isChanged: {
       type: Boolean,
       default: false

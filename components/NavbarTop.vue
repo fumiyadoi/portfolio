@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     goAnotherPage () {
-      this.$emit('componentRef')
+      this.$router.push('/')
     }
   }
 }
