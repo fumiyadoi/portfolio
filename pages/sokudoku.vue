@@ -165,10 +165,11 @@ export default {
   -webkit-writing-mode: vertical-rl;
   -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
-  height: 44vh;
+  height: 50vh;
   line-height: 3em;
   letter-spacing: 0.3em;
-  display: inline-block
+  display: flex;
+  flex-flow: column;
 }
 
 .wrapper-content {
