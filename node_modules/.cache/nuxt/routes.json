@@ -1,0 +1,51 @@
+[
+  {
+    "name": "bookedit",
+    "path": "/bookedit",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/bookedit.vue",
+    "chunkName": "pages/bookedit",
+    "_name": "_3ea6e3d2"
+  },
+  {
+    "name": "booklist",
+    "path": "/booklist",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/booklist.vue",
+    "chunkName": "pages/booklist",
+    "_name": "_5d3732aa"
+  },
+  {
+    "name": "sokudoku",
+    "path": "/sokudoku",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/sokudoku.vue",
+    "chunkName": "pages/sokudoku",
+    "_name": "_3e7a429f"
+  },
+  {
+    "name": "sokudoku-top",
+    "path": "/sokudoku-top",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/sokudoku-top.vue",
+    "chunkName": "pages/sokudoku-top",
+    "_name": "_4110d927"
+  },
+  {
+    "name": "sokutore",
+    "path": "/sokutore",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/sokutore.vue",
+    "chunkName": "pages/sokutore",
+    "_name": "_70c4f650"
+  },
+  {
+    "name": "sokutore-top",
+    "path": "/sokutore-top",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/sokutore-top.vue",
+    "chunkName": "pages/sokutore-top",
+    "_name": "_25e656e0"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/fd/Documents/GitHub/portfolio2/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_4ae88d5e"
+  }
+]
