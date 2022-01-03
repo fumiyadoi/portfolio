@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-sample",
+  "name": "Sokudoku",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -10,10 +10,12 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
+    "bulma-modal-fx": "^1.1.1",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "nuxt-buefy": "^0.4.8",
     "nuxt-svg-loader": "^1.2.0",
+    "push-dir": "^0.4.1",
     "vue-slider-component": "^3.2.15"
   }
 }
