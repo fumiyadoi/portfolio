@@ -136,7 +136,6 @@ export default {
 }
 
 .tategaki {
-  -webkit-appearance: none;
   -ms-writing-mode: tb-rl;
   -webkit-writing-mode: vertical-rl;
   writing-mode: vertical-rl;

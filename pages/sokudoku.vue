@@ -160,13 +160,12 @@ export default {
 }
 
 .tategaki {
-  -webkit-appearance: none;
   -ms-writing-mode: tb-rl;
   -ms-writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
   -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
-  height: 50%;
+  height: 45vh;
   line-height: 3em;
   letter-spacing: 0.3em;
   display: inline-block
