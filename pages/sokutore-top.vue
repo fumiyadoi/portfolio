@@ -25,7 +25,7 @@
             </div>
             <div v-for="(booklist, index) in bookList" :key="booklist">
               <hr>
-              <div class="column is-12" @click="selectBook(index)">
+              <div class="column is-12" @click="selectBook(index)" style="cursor: pointer;">
                 <div class="columns is-mobile is-vcentered">
                   <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkLetters[index]}}</div>
                   <div class="column is-11" :style="modalStyles[index]">{{booklist}}</div>

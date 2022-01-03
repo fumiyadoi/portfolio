@@ -14,6 +14,13 @@
     "_name": "_6da19556"
   },
   {
+    "name": "inspire",
+    "path": "/inspire",
+    "component": "/Users/fd/Documents/GitHub/portfolio/pages/inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_70d25a7c"
+  },
+  {
     "name": "sokudoku",
     "path": "/sokudoku",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/sokudoku.vue",

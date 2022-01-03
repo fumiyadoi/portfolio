@@ -6,6 +6,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _4f11467e = () => interopDefault(import('../pages/bookedit.vue' /* webpackChunkName: "pages/bookedit" */))
 const _6da19556 = () => interopDefault(import('../pages/booklist.vue' /* webpackChunkName: "pages/booklist" */))
+const _70d25a7c = () => interopDefault(import('../pages/inspire.vue' /* webpackChunkName: "pages/inspire" */))
 const _36451149 = () => interopDefault(import('../pages/sokudoku.vue' /* webpackChunkName: "pages/sokudoku" */))
 const _b7bf7a5e = () => interopDefault(import('../pages/sokudoku-top.vue' /* webpackChunkName: "pages/sokudoku-top" */))
 const _812f58fc = () => interopDefault(import('../pages/sokutore.vue' /* webpackChunkName: "pages/sokutore" */))
@@ -31,6 +32,10 @@ export const routerOptions = {
     path: "/booklist",
     component: _6da19556,
     name: "booklist"
+  }, {
+    path: "/inspire",
+    component: _70d25a7c,
+    name: "inspire"
   }, {
     path: "/sokudoku",
     component: _36451149,

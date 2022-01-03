@@ -1,13 +1,20 @@
-# 速読Web
+# nuxt-sample
 
-## 環境構築
+## Build Setup
 
 ```bash
-# npmをインストール
+# install dependencies
 $ npm install
 
-# ローカル環境立ち上げ
+# serve with hot reload at localhost:3000
 $ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm run start
+
+# generate static project
+$ npm run generate
 ```
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).

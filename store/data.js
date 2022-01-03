@@ -1,6 +1,6 @@
 export const state = () => ({
   fontsize: 'medium',
-  bookIndex: undefined,
+  bookIndex: 0,
   bookPages: {
     0: [0, 0],
     1: [0, 0]
