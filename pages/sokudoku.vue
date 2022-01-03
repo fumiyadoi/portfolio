@@ -161,13 +161,14 @@ export default {
 
 .tategaki {
   -ms-writing-mode: tb-rl;
+  -ms-writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   height: 50%;
   line-height: 3em;
   letter-spacing: 0.3em;
-  display: flex;
-  align-items: center;
+  display: inline-block
 }
 
 .wrapper-content {
