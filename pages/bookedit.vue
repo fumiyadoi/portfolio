@@ -14,7 +14,7 @@
         <div class="column is-12">
           <div class="columns is-mobile is-centered">
             <div class="column is-12">
-              <textarea class="textarea is-size-7" rows="10" placeholder="本文を入力してください" style="border-radius: 8px;" v-model="bookBody"></textarea>
+              <textarea class="textarea is-size-7" rows="7" placeholder="本文を入力してください" style="border-radius: 8px;" v-model="bookBody"></textarea>
             </div>
           </div>
         </div>
