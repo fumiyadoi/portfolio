@@ -2,7 +2,7 @@
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="columns is-mobile is-vcentered" style="margin: 0; height: 100%;">
       <div class="column is-4"></div>
-      <div class="column is-4 is-justify-content-center">
+      <div class="column is-4 has-text-centered">
         <Sublogo class="sublogo" />
       </div>
     </div>

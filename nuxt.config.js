@@ -45,6 +45,6 @@ export default {
   target: 'static',
 
   router: {
-    base: 'portfolio'
+    base: '/portfolio'
   }
 }
