@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
+          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayed}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -59,6 +59,7 @@ export default {
     return {
       bookTitle: '',
       body: '',
+      displayed: '',
       trimmed: [],
       length: '',
       page: '',
@@ -100,6 +101,7 @@ export default {
     }
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+    this.displayed = this.trimmed[this.page]
     this.length = this.trimmed.length
     this.$nuxt.$emit('updateRef', 'sokudoku-top')/* navbarの戻るボタンの遷移先の受け渡し */
     this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
@@ -119,19 +121,11 @@ export default {
         this.modal_class = 'is-active'
       }
     },
-    async changePage () {
-      if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
-        await this.$store.commit('data/changePage', 0)
-        this.page = await this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      } else {
-        this.pause()
-      }
-    },
     goTopPage () {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      this.displayedSentense = this.trimmed[this.page]
+      this.displayed = this.trimmed[this.page]
     },
     pause () {
       clearInterval(this.intervalId)
@@ -140,7 +134,13 @@ export default {
     play () {
       this.isPlay = true
       this.intervalId = setInterval(() => {
-        this.changePage()
+        if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
+          this.$store.commit('data/changePage', 0)
+          this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+          this.displayed = this.trimmed[this.page]
+        } else {
+          this.pause()
+        }
       }, -49.5 * this.speed + 5049)
     }
   }
