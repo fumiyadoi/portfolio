@@ -166,9 +166,7 @@ export default {
 
 .tategaki {
   -ms-writing-mode: tb-rl;
-  -ms-writing-mode: vertical-rl;
   -webkit-writing-mode: vertical-rl;
-  -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   height: 50vh;
   line-height: 3em;
