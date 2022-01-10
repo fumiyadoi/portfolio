@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
+          <div class="tategaki pt-3 pb-1" :class="fontsize" key="sokudoku">{{trimmed[page]}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -168,7 +168,8 @@ export default {
   height: 50vh;
   line-height: 3em;
   letter-spacing: 0.3em;
-  display: inline;
+  display: flex;
+  flex-flow: column;
 }
 
 .wrapper-content {
