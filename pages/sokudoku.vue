@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="pt-3 pb-1" :class="fontsize">{{displayed}}</div>
+          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayed}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -59,7 +59,6 @@ export default {
     return {
       bookTitle: '',
       body: '',
-      displayed: '',
       trimmed: [],
       length: '',
       page: '',
@@ -68,6 +67,11 @@ export default {
       fontsize: '',
       modal_class: '',
       speed: 50
+    }
+  },
+  computed: {
+    displayed() {
+      return this.trimmed[this.page]
     }
   },
   components: {
@@ -95,7 +99,6 @@ export default {
     }
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-    this.displayed = this.trimmed[this.page]
     this.length = this.trimmed.length
     this.$nuxt.$emit('updateRef', 'sokudoku-top')/* navbarの戻るボタンの遷移先の受け渡し */
     this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
@@ -108,11 +111,11 @@ export default {
   methods: {
     setFontsize () {
       if (this.$store.state.data.fontsize === 'small') {
-        this.fontsize = 'is-size-7 tategaki'
+        this.fontsize = 'is-size-7'
       } else if (this.$store.state.data.fontsize === 'medium') {
-        this.fontsize = 'is-size-6 tategaki'
+        this.fontsize = 'is-size-6'
       } else {
-        this.fontsize = 'is-size-5 tategaki'
+        this.fontsize = 'is-size-5'
       }
     },
     onSpeedModal () {
@@ -128,7 +131,6 @@ export default {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      this.displayed = this.trimmed[this.page]
     },
     pause () {
       clearInterval(this.intervalId)
@@ -140,8 +142,6 @@ export default {
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-          this.displayed = this.trimmed[this.page]
-          this.setFontsize()
         } else {
           this.pause()
         }
@@ -167,6 +167,7 @@ export default {
 .tategaki {
   -ms-writing-mode: tb-rl;
   -webkit-writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   height: 50vh;
   line-height: 3em;
