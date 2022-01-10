@@ -3,7 +3,9 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{text}}</div>
+          <div :class="fontsize">
+            <div class="pt-3 pb-1" :class="tategaki">{{text}}</div>
+          </div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -61,6 +63,7 @@ export default {
       body: '',
       trimmed: [],
       text: '',
+      tategaki: '',
       length: '',
       page: '',
       intervalId: undefined,
@@ -95,7 +98,9 @@ export default {
     }
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+    this.tategaki = ''
     this.text = this.page
+    this.tategaki = 'tategaki'
     this.length = this.trimmed.length
     this.$nuxt.$emit('updateRef', 'sokudoku-top')/* navbarの戻るボタンの遷移先の受け渡し */
     this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
@@ -128,7 +133,9 @@ export default {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+      this.tategaki = ''
       this.text = this.page
+      this.tategaki = 'tategaki'
     },
     pause () {
       clearInterval(this.intervalId)
@@ -140,7 +147,9 @@ export default {
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+          this.tategaki = ''
           this.text = this.page
+          this.tategaki = 'tategaki'
         } else {
           this.pause()
         }
