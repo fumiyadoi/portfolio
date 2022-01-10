@@ -135,7 +135,6 @@ export default {
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
       this.tategaki = ''
       this.text = this.page
-      this.tategaki = 'tategaki'
     },
     pause () {
       clearInterval(this.intervalId)
@@ -149,7 +148,6 @@ export default {
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
           this.tategaki = ''
           this.text = this.page
-          this.tategaki = 'tategaki'
         } else {
           this.pause()
         }
