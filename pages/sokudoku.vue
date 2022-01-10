@@ -3,7 +3,9 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
+          <template :class="fontsize">
+            <div class="pt-3 pb-1" :class="{'tategaki': tategaki}">{{trimmed[page]}}</div>
+          </template>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -62,6 +64,7 @@ export default {
       trimmed: [],
       length: '',
       page: '',
+      tategaki: true,
       intervalId: undefined,
       isPlay: true,
       fontsize: '',
@@ -123,9 +126,11 @@ export default {
       }
     },
     goTopPage () {
+      this.tategaki = false
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+      this.tategaki = true
     },
     pause () {
       clearInterval(this.intervalId)
@@ -134,12 +139,14 @@ export default {
     play () {
       this.isPlay = true
       this.intervalId = setInterval(() => {
+        this.tategaki = false
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
         } else {
           this.pause()
         }
+        this.tategaki = true
       }, -49.5 * this.speed + 5049)
     }
   }
@@ -161,7 +168,7 @@ export default {
 
 .tategaki {
   -ms-writing-mode: tb-rl;
-  /* -webkit-writing-mode: vertical-rl; */
+  -webkit-writing-mode: vertical-rl;
   -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   height: 50vh;
