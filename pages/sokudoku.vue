@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayed}}</div>
+          <div class="pt-3 pb-1" :class="fontsize">{{displayed}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -81,13 +81,7 @@ export default {
   async mounted () {
     this.speed = this.$store.state.data.sokudokuSpeed/* スピードをvuexから取得します。 */
     /* 文字サイズを設定します。 */
-    if (this.$store.state.data.fontsize === 'small') {
-      this.fontsize = 'is-size-7'
-    } else if (this.$store.state.data.fontsize === 'medium') {
-      this.fontsize = 'is-size-6'
-    } else {
-      this.fontsize = 'is-size-5'
-    }
+    this.setFontsize()
     const bookList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
     const bookContent = this.$store.state.data.bookContent.concat(this.$store.state.data.userBookContent)
     this.bookTitle = bookList[this.$store.state.data.bookIndex]
@@ -112,6 +106,15 @@ export default {
     this.pause()
   },
   methods: {
+    setFontsize () {
+      if (this.$store.state.data.fontsize === 'small') {
+        this.fontsize = 'is-size-7 tategaki'
+      } else if (this.$store.state.data.fontsize === 'medium') {
+        this.fontsize = 'is-size-6 tategaki'
+      } else {
+        this.fontsize = 'is-size-5 tategaki'
+      }
+    },
     onSpeedModal () {
       this.pause()
       if (this.modal_class === 'is-active') {
@@ -138,6 +141,7 @@ export default {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
           this.displayed = this.trimmed[this.page]
+          this.setFontsize()
         } else {
           this.pause()
         }
