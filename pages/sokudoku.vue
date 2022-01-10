@@ -3,9 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <template :class="fontsize">
-            <div class="pt-3 pb-1" :class="{'tategaki': tategaki}">{{trimmed[page]}}</div>
-          </template>
+          <div class="pt-3 pb-1" :class="fontsize">{{text}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -62,9 +60,9 @@ export default {
       bookTitle: '',
       body: '',
       trimmed: [],
+      text: '',
       length: '',
       page: '',
-      tategaki: true,
       intervalId: undefined,
       isPlay: true,
       fontsize: '',
@@ -126,11 +124,9 @@ export default {
       }
     },
     goTopPage () {
-      this.tategaki = false
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      this.tategaki = true
     },
     pause () {
       clearInterval(this.intervalId)
@@ -139,14 +135,13 @@ export default {
     play () {
       this.isPlay = true
       this.intervalId = setInterval(() => {
-        this.tategaki = false
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+          this.text = String(this.page)
         } else {
           this.pause()
         }
-        this.tategaki = true
       }, -49.5 * this.speed + 5049)
     }
   }
