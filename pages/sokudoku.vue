@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayedSentense}}</div>
+          <div class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -59,7 +59,6 @@ export default {
     return {
       bookTitle: '',
       body: '',
-      displayedSentense: '',
       trimmed: [],
       length: '',
       page: '',
@@ -120,11 +119,10 @@ export default {
         this.modal_class = 'is-active'
       }
     },
-    changePage () {
+    async changePage () {
       if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
-        this.$store.commit('data/changePage', 0)
-        this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-        this.displayedSentense = this.trimmed[this.page]
+        await this.$store.commit('data/changePage', 0)
+        this.page = await this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
       } else {
         this.pause()
       }
