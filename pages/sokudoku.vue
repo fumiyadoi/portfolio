@@ -2,8 +2,8 @@
   <div class="columns is-mobile is-centered" style="width: 100%; height: 80%; margin: 0;">
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
-        <div v-if="trimmed[page]" class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize" key="sokudoku">{{trimmed[page]}}</div>
+        <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
+          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayedSentense}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -59,6 +59,7 @@ export default {
     return {
       bookTitle: '',
       body: '',
+      displayedSentense: '',
       trimmed: [],
       length: '',
       page: '',
@@ -123,6 +124,7 @@ export default {
       if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
         this.$store.commit('data/changePage', 0)
         this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+        this.displayedSentense = this.trimmed[this.page]
       } else {
         this.pause()
       }
@@ -131,6 +133,7 @@ export default {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+      this.displayedSentense = this.trimmed[this.page]
     },
     pause () {
       clearInterval(this.intervalId)
