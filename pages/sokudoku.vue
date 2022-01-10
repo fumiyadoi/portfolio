@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div class="tategaki pt-3 pb-1" :class="fontsize">{{displayed}}</div>
+          <div class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -67,11 +67,6 @@ export default {
       fontsize: '',
       modal_class: '',
       speed: 50
-    }
-  },
-  computed: {
-    displayed() {
-      return this.trimmed[this.page]
     }
   },
   components: {
@@ -166,7 +161,7 @@ export default {
 
 .tategaki {
   -ms-writing-mode: tb-rl;
-  -webkit-writing-mode: vertical-rl;
+  /* -webkit-writing-mode: vertical-rl; */
   -moz-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   height: 50vh;
