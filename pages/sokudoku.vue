@@ -2,7 +2,7 @@
   <div class="columns is-mobile is-centered" style="width: 100%; height: 80%; margin: 0;">
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
-        <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
+        <div v-if="trimmed[page]" class="column is-12 wrapper-content mb-5 tategaki-wrapper">
           <div class="tategaki pt-3 pb-1" :class="fontsize" key="sokudoku">{{trimmed[page]}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
