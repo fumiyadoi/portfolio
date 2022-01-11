@@ -8,12 +8,11 @@
         </div>
         <div class="column is-12 wrapper-content">
           <div class="columns is-mobile is-vcentered">
-            <figure v-if="forRerender1" @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
-            <figure v-if="!forRerender1" @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
+            <figure v-if="forRerender" @click="onSpeedModal" class="image is-1" id="speed1"><Speed style="width: 60px; height: 60px;"/></figure>
+            <figure v-if="!forRerender" @click="onSpeedModal" class="image is-1" id="speed2"><Speed style="width: 60px; height: 60px;"/></figure>
             <figure v-if="isPlay" @click="pause" class="image is-1" id="pause"><Pause style="width: 60px; height: 60px;"/></figure>
             <figure v-else @click="play" class="image is-1" id="play"><Play style="width: 60px; height: 60px;"/></figure>
-            <div v-if="forRerender2" class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
-            <div v-if="!forRerender2" class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
+            <div class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
           </div>
         </div>
       </div>
@@ -63,8 +62,7 @@ export default {
       body: '',
       trimmed: [],
       text: '',
-      forRerender1: false,
-      forRerender2: true,
+      forRerender: false,
       length: '',
       page: '',
       intervalId: undefined,
@@ -116,8 +114,7 @@ export default {
   },
   methods: {
     toggleForRerender () { //iPhoneでの表示用
-      this.forRerender1 = !this.forRerender1
-      this.forRerender2 = !this.forRerender2
+      this.forRerender = !this.forRerender
     },
     setFontsize () {
       if (this.$store.state.data.fontsize === 'small') {
@@ -141,7 +138,7 @@ export default {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      this.toggleTest()
+      this.toggleForRerender()
     },
     pause () {
       clearInterval(this.intervalId)
@@ -153,7 +150,7 @@ export default {
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-          this.toggleTest()
+          this.toggleForRerender()
         } else {
           this.pause()
         }
@@ -193,7 +190,8 @@ export default {
   background: white;
 }
 
-#speed,
+#speed1,
+#speed2,
 #pause,
 #play {
   display: flex;
