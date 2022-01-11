@@ -5,9 +5,9 @@
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
           <div class="tategaki pt-3 pb-1" :class="fontsize">
             <div v-for="i in 3" :key="i" class="trimmed-wrapper">
-              <span :style="highlightStyle[(i - 1) * 2]">{{firstLetter[page + (i - 1)]}}</span>
-              <span>{{trimmed[page + (i - 1)]}}</span>
-              <span :style="highlightStyle[(i - 1) * 2 + 1]">{{lastLetter[page + (i - 1)]}}</span>
+              <span :key="String(page)+String(i)+'first'" :style="highlightStyle[(i - 1) * 2]">{{firstLetter[page + (i - 1)]}}</span>
+              <span :key="String(page)+String(i)+'text'">{{trimmed[page + (i - 1)]}}</span>
+              <span :key="String(page)+String(i)+'last'" :style="highlightStyle[(i - 1) * 2 + 1]">{{lastLetter[page + (i - 1)]}}</span>
             </div>
           </div>
           <div class="is-size-7 has-text-centered">{{(page / 3 + 1) +'/'+length}}</div>
