@@ -9,10 +9,11 @@
         <div class="column is-12 wrapper-content">
           <div class="columns is-mobile is-vcentered">
             <figure v-if="forRerender1" @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
-            <figure v-if="forRerender2" @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
+            <figure v-if="!forRerender1" @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
             <figure v-if="isPlay" @click="pause" class="image is-1" id="pause"><Pause style="width: 60px; height: 60px;"/></figure>
             <figure v-else @click="play" class="image is-1" id="play"><Play style="width: 60px; height: 60px;"/></figure>
-            <div class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
+            <div v-if="forRerender2" class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
+            <div v-if="!forRerender2" class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
           </div>
         </div>
       </div>
