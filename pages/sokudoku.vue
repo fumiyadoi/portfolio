@@ -130,7 +130,8 @@ export default {
       }
     },
     goTopPage () {
-      this.pause()
+      clearInterval(this.intervalId)
+      this.isPlay = false
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
     },
