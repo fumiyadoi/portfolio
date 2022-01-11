@@ -6,7 +6,7 @@
           <div class="tategaki pt-3 pb-1" :class="fontsize">{{text}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
-        <div v-if="test"></div>
+        <div v-if="test">test</div>
         <div class="column is-12 wrapper-content">
           <div class="columns is-mobile is-vcentered">
             <figure @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
