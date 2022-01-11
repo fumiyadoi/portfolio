@@ -3,56 +3,48 @@
     "name": "bookedit",
     "path": "/bookedit",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/bookedit.vue",
-    "chunkName": "pages/bookedit",
-    "_name": "_4f11467e"
+    "chunkName": "pages/bookedit"
   },
   {
     "name": "booklist",
     "path": "/booklist",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/booklist.vue",
-    "chunkName": "pages/booklist",
-    "_name": "_6da19556"
+    "chunkName": "pages/booklist"
   },
   {
     "name": "inspire",
     "path": "/inspire",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_70d25a7c"
+    "chunkName": "pages/inspire"
   },
   {
     "name": "sokudoku",
     "path": "/sokudoku",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/sokudoku.vue",
-    "chunkName": "pages/sokudoku",
-    "_name": "_36451149"
+    "chunkName": "pages/sokudoku"
   },
   {
     "name": "sokudoku-top",
     "path": "/sokudoku-top",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/sokudoku-top.vue",
-    "chunkName": "pages/sokudoku-top",
-    "_name": "_b7bf7a5e"
+    "chunkName": "pages/sokudoku-top"
   },
   {
     "name": "sokutore",
     "path": "/sokutore",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/sokutore.vue",
-    "chunkName": "pages/sokutore",
-    "_name": "_812f58fc"
+    "chunkName": "pages/sokutore"
   },
   {
     "name": "sokutore-top",
     "path": "/sokutore-top",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/sokutore-top.vue",
-    "chunkName": "pages/sokutore-top",
-    "_name": "_ee147eec"
+    "chunkName": "pages/sokutore-top"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/fd/Documents/GitHub/portfolio/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_92036218"
+    "chunkName": "pages/index"
   }
 ]

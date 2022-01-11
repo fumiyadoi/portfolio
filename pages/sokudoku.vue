@@ -8,8 +8,8 @@
         </div>
         <div class="column is-12 wrapper-content">
           <div class="columns is-mobile is-vcentered">
-            <figure v-if="forRerender" @click="onSpeedModal" class="image is-1" id="speed1"><Speed style="width: 60px; height: 60px;"/></figure>
-            <figure v-if="!forRerender" @click="onSpeedModal" class="image is-1" id="speed2"><Speed style="width: 60px; height: 60px;"/></figure>
+            <figure v-if="forRerender1" @click="onSpeedModal" class="image is-1" id="speed1"><Speed style="width: 60px; height: 60px;"/></figure>
+            <figure v-if="forRerender2" @click="onSpeedModal" class="image is-1" id="speed2"><Speed style="width: 60px; height: 60px;"/></figure>
             <figure v-if="isPlay" @click="pause" class="image is-1" id="pause"><Pause style="width: 60px; height: 60px;"/></figure>
             <figure v-else @click="play" class="image is-1" id="play"><Play style="width: 60px; height: 60px;"/></figure>
             <div class="column is-fullwidth has-text-right"><span class="p-2 is-size-7" id="gotoppage" @click="goTopPage">最初に戻る >|</span></div>
@@ -62,7 +62,8 @@ export default {
       body: '',
       trimmed: [],
       text: '',
-      forRerender: false,
+      forRerender1: false,
+      forRerender2: true,
       length: '',
       page: '',
       intervalId: undefined,
@@ -114,7 +115,8 @@ export default {
   },
   methods: {
     toggleForRerender () { //iPhoneでの表示用
-      this.forRerender = !this.forRerender
+      this.forRerender1 = !this.forRerender1
+      this.forRerender2 = !this.forRerender2
     },
     setFontsize () {
       if (this.$store.state.data.fontsize === 'small') {
