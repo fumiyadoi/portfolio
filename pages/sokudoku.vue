@@ -6,6 +6,7 @@
           <div class="tategaki pt-3 pb-1" :class="fontsize">{{text}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
+        <div v-if="test"></div>
         <div class="column is-12 wrapper-content">
           <div class="columns is-mobile is-vcentered">
             <figure @click="onSpeedModal" class="image is-1" id="speed"><Speed style="width: 60px; height: 60px;"/></figure>
@@ -61,6 +62,7 @@ export default {
       body: '',
       trimmed: [],
       text: '',
+      test: false,
       length: '',
       page: '',
       intervalId: undefined,
@@ -111,6 +113,9 @@ export default {
     this.pause()
   },
   methods: {
+    toggleTest () {
+      this.test = !this.test
+    },
     setFontsize () {
       if (this.$store.state.data.fontsize === 'small') {
         this.fontsize = 'is-size-7'
@@ -130,10 +135,10 @@ export default {
       }
     },
     goTopPage () {
-      clearInterval(this.intervalId)
-      this.isPlay = false
+      this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+      this.toggleTest()
     },
     pause () {
       clearInterval(this.intervalId)
@@ -145,6 +150,7 @@ export default {
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
+          this.toggleTest()
         } else {
           this.pause()
         }
