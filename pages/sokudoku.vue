@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-5 tategaki-wrapper">
-          <div :key="page" class="tategaki pt-3 pb-1" :class="fontsize">{{text}}</div>
+          <div :key="page" class="tategaki pt-3 pb-1" :class="fontsize">{{trimmed[page]}}</div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
         </div>
         <div class="column is-12 wrapper-content">
@@ -60,10 +60,6 @@ export default {
       bookTitle: '',
       body: '',
       trimmed: [],
-      text: '',
-      test: false,
-      // forRerender1: false,
-      // forRerender2: true,
       length: '',
       page: '',
       intervalId: undefined,
@@ -103,7 +99,6 @@ export default {
     }
     /* 全ページ数と現在ページの表示を設定します。 */
     this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-    this.text = String(this.page)
     this.length = this.trimmed.length
     this.$nuxt.$emit('updateRef', 'sokudoku-top')/* navbarの戻るボタンの遷移先の受け渡し */
     this.$nuxt.$emit('updateTitle', this.bookTitle)/* navbarのタイトルの受け渡し */
@@ -114,11 +109,6 @@ export default {
     this.pause()
   },
   methods: {
-    toggleForRerender () { //iPhoneでの表示用
-      this.test = !this.test
-      // this.forRerender1 = !this.forRerender1
-      // this.forRerender2 = !this.forRerender2
-    },
     setFontsize () {
       if (this.$store.state.data.fontsize === 'small') {
         this.fontsize = 'is-size-7'
@@ -141,7 +131,6 @@ export default {
       this.pause()
       this.$store.commit('data/goTopPage', 0)
       this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-      // this.toggleForRerender()
     },
     pause () {
       clearInterval(this.intervalId)
@@ -153,7 +142,6 @@ export default {
         if (this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0] < this.length - 1) {
           this.$store.commit('data/changePage', 0)
           this.page = this.$store.state.data.bookPages[this.$store.state.data.bookIndex][0]
-          // this.toggleForRerender()
         } else {
           this.pause()
         }
