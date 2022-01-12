@@ -7,7 +7,7 @@
             <div v-for="i in 3" :key="i" class="trimmed-wrapper">
               <span :key="String(page)+String(i)+'first'" :style="highlightStyle[(i - 1) * 2]">{{firstLetter[page + (i - 1)]}}</span>
               <span :key="String(page)+String(i)+'text'">{{trimmed[page + (i - 1)]}}</span>
-              <span :key="String(page)+String(i)+'last'" :style="highlightStyle[(i - 1) * 2 + 1]">{{lastLetter[page + (i - 1)]}}</span>
+              <span :key="String(page)+String(i)+'last'" :style="highlightStyle[(i - 1) * 2 + 1]" :class="lastSpace">{{lastLetter[page + (i - 1)]}}</span>
             </div>
           </div>
           <div class="is-size-7 has-text-centered">{{(page / 3 + 1) +'/'+length}}</div>
@@ -34,6 +34,7 @@ export default {
       firstLetter: [],
       lastLetter: [],
       highlightStyle: [],
+      lastSpace: '',
       intervalId: undefined,
       length: '',
       page: '',
@@ -95,6 +96,7 @@ export default {
     },
     highlight () {
       /* ハイライトの初期表示を設定します。 */
+      this.lastSpace = ''
       let n = 0
       let limit = 0
       this.highlightStyle = []
@@ -109,7 +111,12 @@ export default {
       for (let i = 0; i < limit; i++) {
         this.highlightStyle.push({ background: 'none' })
       }
+      console.log(limit)
       this.highlightStyle[0].background = 'yellow'
+      if (limit < 6 && this.trimmed[this.page + ((limit-2)/2)] === '') {
+        this.lastSpace = 'lastSpace'
+        console.log('a')
+      }
       /* ハイライトの移動処理を開始します。 */
       this.intervalId = setInterval(() => {
         if (n < limit - 1) {
@@ -168,6 +175,10 @@ export default {
   text-align: center;
   border-radius: 50%;
   letter-spacing: 0;
+}
+
+.lastSpace {
+  margin-top: 0.7em;
 }
 
 .wrapper-content {
