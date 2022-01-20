@@ -16,7 +16,7 @@
                 <span :key="String(page)+String(i)+'text1'">{{trimmed1[page * lines + i - 1]}}</span>
                 <span :key="String(page)+String(i)+'first'" :style="highlightStyle1[i - 1]">{{highlightChara1[page * lines + i - 1]}}</span>
                 <span :key="String(page)+String(i)+'text2'">{{trimmed2[page * lines + i - 1]}}</span>
-                <span :key="String(page)+String(i)+'last'" :style="highlightStyle2[i - 1]">{{highlightChara2[page * lines + i - 1]}}</span>
+                <span :key="String(page)+String(i)+'medium'" :style="highlightStyle2[i - 1]">{{highlightChara2[page * lines + i - 1]}}</span>
                 <span :key="String(page)+String(i)+'text3'">{{trimmed3[page * lines + i - 1]}}</span>
                 <span :key="String(page)+String(i)+'last'" :style="highlightStyle3[i - 1]">{{highlightChara3[page * lines + i - 1]}}</span>
                 <span :key="String(page)+String(i)+'text4'">{{trimmed4[page * lines + i - 1]}}</span>
@@ -527,13 +527,12 @@ export default {
           if (n < this.lines) {
             if (fromFirstIndex === 0) {
               if (this.highlightChara2[this.page * this.lines + n] !== '') {
-                if (this.highlightChara2[this.page * this.lines + n] === undefined) {
-                  endFlag = true
-                } else {
-                  fromFirstIndex++
-                }
+                fromFirstIndex++
               } else {
                 hasNext = false
+                if (this.highlightChara1[this.page * this.lines + n + 1] === undefined) {
+                  endFlag = true
+                }
                 for (let i = 1; i < this.lines - n; i++) {
                   if (this.highlightChara1[this.page * this.lines + n + i] !== '') {
                     n += i
@@ -547,13 +546,12 @@ export default {
               }
             } else if (fromFirstIndex === 1) {
               if (this.highlightChara3[this.page * this.lines + n] !== '') {
-                if (this.highlightChara3[this.page * this.lines + n] === undefined) {
-                  endFlag = true
-                } else {
-                  fromFirstIndex++
-                }
+                fromFirstIndex++
               } else {
                 hasNext = false
+                if (this.highlightChara1[this.page * this.lines + n + 1] === undefined) {
+                  endFlag = true
+                }
                 for (let i = 1; i < this.lines - n; i++) {
                   if (this.highlightChara1[this.page * this.lines + n + i] !== '') {
                     n += i
@@ -613,17 +611,17 @@ export default {
       } else {
         /* ハイライトの移動処理を開始します。 */
         this.intervalId = setInterval(() => {
+          console.log([n,fromFirstIndex])
           endFlag = false
           if (n < this.lines) {
             if (fromFirstIndex === 0) {
               if (this.highlightChara2[this.page * this.lines + n] !== '') {
-                if (this.highlightChara2[this.page * this.lines + n] === undefined) {
-                  endFlag = true
-                } else {
-                  fromFirstIndex++
-                }
+                fromFirstIndex++
               } else {
                 hasNext = false
+                if (this.highlightChara1[this.page * this.lines + n + 1] === undefined) {
+                  endFlag = true
+                }
                 for (let i = 1; i < this.lines - n; i++) {
                   if (this.highlightChara1[this.page * this.lines + n + i] !== '') {
                     n += i

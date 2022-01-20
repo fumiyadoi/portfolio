@@ -3,7 +3,7 @@
     <div class="column is-4-tablet is-11-mobile">
       <div class="columns is-mobile is-multiline is-centered is-vcentered">
         <div class="column is-12 wrapper-content mb-3 tategaki-wrapper">
-          <div class="sokudoku-wrapper tategaki pt-3 pb-1" :class="fontsize" :style="height">
+          <div :key="page" class="sokudoku-wrapper tategaki pt-3 pb-1" :class="fontsize" :style="height">
             <span v-for="i in lines" :key="i" :style="highlights[i-1]" style="cursor: default;">{{trimmed[page * lines + i - 1]}}</span>
           </div>
           <div class="is-size-7 has-text-centered">{{(page + 1) +'/'+length}}</div>
