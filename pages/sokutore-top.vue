@@ -10,7 +10,17 @@
         </div>
         <div class="column is-12 mt-2">
           <div class="columns is-centered is-mobile">
-            <button class="select-button" @click="onSelectModal">{{ selectedTitle }}</button>
+            <button class="select-button" @click="onSelectModal(true)">{{ selectedTitle }}</button>
+          </div>
+        </div>
+        <div class="column is-12 mt-1">
+          <div class="columns is-vcentered is-mobile">
+            <div class="column is-12 has-text-weight-semibold" style="color: #404a72;">ハイライトスタイル</div>
+          </div>
+        </div>
+        <div class="column is-12">
+          <div class="columns is-centered is-mobile">
+            <button class="select-button" @click="onSelectModal(false)">{{ selectedStyle }}</button>
           </div>
         </div>
         <div class="modal" id="modal" v-bind:class="modal_class">
@@ -19,33 +29,53 @@
             <div class="column is-12">
               <div class="columns is-mobile is-vcentered" id="modalnav">
                 <div class="column is-2"></div>
-                <div class="column is-8 has-text-weight-semibold has-text-centered" style="color: #404a72;">教材選択</div>
+                <div v-if="modalForTitle" class="column is-8 has-text-weight-semibold has-text-centered" style="color: #404a72;">教材選択</div>
+                <div v-else class="column is-8 has-text-weight-semibold has-text-centered" style="color: #404a72;">ハイライトスタイル</div>
                 <div class="column is-2 has-text-weight-semibold has-text-right" style="font-size: 1.5em; color: #404a72;"><span @click="onSelectModal" id="close">×</span></div>
               </div>
             </div>
-            <div v-for="(booklist, index) in bookList" :key="booklist">
-              <hr>
-              <div class="column is-12" @click="selectBook(index)" style="cursor: pointer;">
-                <div class="columns is-mobile is-vcentered">
-                  <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkLetters[index]}}</div>
-                  <div class="column is-11" :style="modalStyles[index]">{{booklist}}</div>
+            <template v-if="modalForTitle">
+              <div class="column is-12"><input type="text" v-model="searchWord" placeholder="教材を検索"></div>
+              <hr style="margin: 0;">
+              <div style="max-height: 328px; overflow-x: scroll;">
+                <div v-for="(bookidtitle, index) in bookList" :key="bookidtitle" style="cursor: pointer;">
+                  <hr v-if="index != 0" style="margin: 0;">
+                  <div class="column is-12" @click="selectBook(index)">
+                    <div class="columns is-mobile is-vcentered">
+                      <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkLetters[index]}}</div>
+                      <div class="column is-11" :style="modalStyles[index]">{{bookidtitle}}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
+            <template v-else>
+              <div v-for="(Style, index) in StyleList" :key="Style" style="cursor: pointer;">
+                <hr style="margin: 0;">
+                <div class="column is-12" @click="selectStyle(Style)">
+                  <div class="columns is-mobile is-vcentered">
+                    <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkStyleLetters[index]}}</div>
+                    <div class="column is-11" :style="modalStyleStyles[index]">{{Style}}</div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
-        <div class="column is-12 has-text-weight-semibold mt-5" style="color: #404a72;">速度</div>
+        <div class="column is-12 has-text-weight-semibold mt-3" style="color: #404a72;">速度</div>
         <div class="column is-12">
           <div class="columns is-centered is-vcentered is-mobile">
             <figure class="image" style="display: flex; align-items: center;">
               <Min style="width: 40px; height: 40px;"/>
             </figure>
-            <vue-slider @change="changeSpeed" style="width: 70%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
+            <vue-slider style="width: 60%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
             <figure class="image" style="display: flex; align-items: center;">
               <Max style="width: 40px; height: 40px;"/>
             </figure>
+            <button class="guinness-button is-size-7" style="cursor: pointer;" @click="setGuinness">ギネス</button>
           </div>
         </div>
+        <div class="column is-12 is-size-7 has-text-centered" style="padding-bottom: 0; padding-top: 6px; color: #404a72;">{{displaySpeed}}文字/分</div>
         <div class="column is-12 has-text-weight-semibold mt-3" style="color: #404a72;">文字サイズ</div>
         <div class="column is-12 mt-2">
           <div class="columns is-centered is-mobile">
@@ -55,7 +85,7 @@
             </template>
           </div>
         </div>
-        <div class="column is-12 mt-6 mb-6">
+        <div class="column is-12 mt-6 mb-5">
           <div class="columns is-centered is-mobile">
             <button class="button has-text-white start-button" @click="startSokudoku">スタート</button>
           </div>
@@ -76,11 +106,23 @@ export default {
   layout: 'defaultTop',
   data () {
     return {
+      bookBaseList: [],
       bookList: [],
-      selectedTitle: undefined,
+      StyleList: [
+        '1列ハイライト',
+        '1列2分割ハイライト',
+        '1列3分割ハイライト'
+      ],
+      selectedTitle: '',
+      selectedId: '',
+      selectedStyle: '',
+      modalForTitle: true,
       modal_class: '',
       modalStyles: [],
+      modalStyleStyles: [],
       checkLetters: [],
+      checkStyleLetters: [],
+      searchWord: '',
       speed: 50,
       userId: '',
       fontsizes: {
@@ -88,6 +130,17 @@ export default {
         medium: false,
         large: false
       }
+    }
+  },
+  computed: {
+    displaySpeed: function () {
+      // return Math.floor(60000 / (-3.28 * Math.log(this.speed) + 17.50495821))
+      return Math.floor(6000 / (17.91196 * Math.exp(-0.0201 * this.speed))) * 10
+    }
+  },
+  watch: {
+    searchWord: function (newVal, oldVal) {
+      this.searchBook()
     }
   },
   components: {
@@ -98,7 +151,8 @@ export default {
   },
   async mounted () {
     this.checkFontsize(this.$store.state.data.fontsize)
-    this.bookList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
+    this.bookBaseList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
+    this.bookList = this.bookBaseList
     this.speed = this.$store.state.data.sokutoreSpeed/* スピードをvuexから取得します。 */
     this.$nuxt.$emit('updateTitle', '速トレ')/* navbarのタイトルの受け渡し */
     /* これはモーダルのデザインを設定する処理 */
@@ -110,10 +164,29 @@ export default {
       this.checkLetters.push('')
     }
     this.selectBook(this.$store.state.data.bookIndex)
+    // ハイライトスタイルの選択をするモーダルの表示を設定します
+    let styleFlag = 0
+    for (let i = 0; i < 3; i++) {
+      this.modalStyleStyles.push({
+        color: '#404a72',
+        transition: 'all 0.3s'
+      })
+      this.checkStyleLetters.push('')
+      if (this.StyleList[i] === this.$store.state.data.highlightStyle) {
+        styleFlag = 1
+      }
+    }
+    if (styleFlag === 0) {
+      this.$store.commit('data/changeHighlightStyle', this.StyleList[0])
+    }
+    this.selectStyle(this.$store.state.data.highlightStyle)
+  },
+  destroyed () {
+    this.$store.commit('data/changeSokutoreSpeed', this.speed)
   },
   methods: {
-    changeSpeed () {
-      this.$store.commit('data/changeSokutoreSpeed', this.speed)
+    setGuinness () {
+      this.speed = 100
     },
     changeFontsize (fontsize) {
       this.$store.commit('data/changeFontsize', fontsize)
@@ -135,7 +208,12 @@ export default {
     startSokudoku () {
       this.$router.push('sokutore')
     },
-    onSelectModal () {
+    onSelectModal (boolean) {
+      if (boolean) {
+        this.modalForTitle = true
+      } else {
+        this.modalForTitle = false
+      }
       if (this.modal_class === 'is-active') {
         this.modal_class = ''
       } else {
@@ -154,12 +232,82 @@ export default {
           this.modalStyles[i].color = '#404a72'
         }
       }
+    },
+    selectStyle (Style) {
+      this.$store.commit('data/changeHighlightStyle', Style)
+      for (let i = 0; i < 3; i++) {
+        if (this.StyleList[i] === Style) {
+          this.checkStyleLetters[i] = '✓'
+          this.modalStyleStyles[i].color = '#f18d1d'
+          this.selectedStyle = this.StyleList[i]
+        } else {
+          this.checkStyleLetters[i] = ''
+          this.modalStyleStyles[i].color = '#404a72'
+        }
+      }
+    },
+    searchBook () {
+      this.bookList = []
+      this.checkLetters = []
+      this.modalStyles = []
+      if (this.searchWord !== '') {
+        for (let i = 0; i < this.bookBaseList.length; i++) {
+          const title = this.bookBaseList[i]
+          const searchword = this.searchWord
+          if (title.indexOf(searchword) !== -1) {
+            this.bookList.push(this.bookBaseList[i])
+            this.modalStyles.push({
+              color: '#404a72',
+              transition: 'all 0.3s'
+            })
+            this.checkLetters.push('')
+          }
+        }
+        for (let i = 0; i < this.bookList.length; i++) {
+          if (this.bookList[i] === this.selectedTitle) {
+            this.checkLetters[i] = '✓'
+            this.modalStyles[i].color = '#f18d1d'
+          } else {
+            this.checkLetters[i] = ''
+            this.modalStyles[i].color = '#404a72'
+          }
+        }
+      } else {
+        this.bookList = this.bookBaseList
+        for (let i = 0; i < this.bookBaseList.length; i++) {
+          this.modalStyles.push({
+            color: '#404a72',
+            transition: 'all 0.3s'
+          })
+          this.checkLetters.push('')
+        }
+        for (let i = 0; i < this.bookList.length; i++) {
+          if (this.bookList[i] === this.selectedTitle) {
+            this.checkLetters[i] = '✓'
+            this.modalStyles[i].color = '#f18d1d'
+          } else {
+            this.checkLetters[i] = ''
+            this.modalStyles[i].color = '#404a72'
+          }
+        }
+      }
     }
   }
 }
 </script>
 
 <style>
+input {
+  width: 100%;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  padding: 6px;
+}
+
+input::placeholder {
+  color: #dbdbdb;
+}
+
 .vue-slider-dot-tooltip-inner.vue-slider-dot-tooltip-inner-top {
   border: #f18d1d;
   background-color: #f18d1d;
@@ -172,6 +320,16 @@ export default {
 
 .vue-slider-dot-handle {
   background-color: #f18d1d;
+}
+
+.guinness-button {
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  border: 1px solid #3362a8;
+  background: white;
+  color: #3362a8;
+  box-shadow: 0 2px 3px #00000029;
 }
 
 .select-button {
@@ -219,10 +377,6 @@ export default {
 
 #close:hover {
   cursor: pointer;
-}
-
-hr {
-  margin: 0;
 }
 
 #modal-content-top {

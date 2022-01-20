@@ -1,20 +1,15 @@
 export const state = () => ({
   fontsize: 'medium',
   bookIndex: 0,
-  bookPages: {
+  highlightStyle: undefined,
+  charaIndexs: {
     0: [0, 0],
     1: [0, 0]
   },
   sokudokuSpeed: 50,
   sokutoreSpeed: 50,
   flag: false, /* 教材編集時の文章表示判断用 */
-  userId: '',
-  email: '',
-  emailTmp: '',
-  emailAtLogin: '',
-  password: '',
   backIdentifier: 'sokudoku-top',
-  userInfoId: '',
   stopRedirect: false,
   bookList: [
     '羅生門',
@@ -40,30 +35,26 @@ export const mutations = {
     ]
     state.userBookList = new Array(0)
     state.userBookContent = new Array(0)
-    state.bookPages = {
+    state.charaIndexs = {
       0: [0, 0],
       1: [0, 0]
     }
   },
   addBook: function (state) {
     const index = state.bookList.length + state.userBookList.length - 1
-    state.bookPages[index] = [0, 0]
+    state.charaIndexs[index] = [0, 0]
   },
   deleteBook: function (state, id) {
-    delete state.bookPages[id]
+    delete state.charaIndexs[id]
   },
   changeBookIndex: function (state, index) {
     state.bookIndex = index
   },
-  changePage: function (state, i) {
-    if (i === 0) {
-      state.bookPages[state.bookIndex][i] += 1
-    } else {
-      state.bookPages[state.bookIndex][i] += 3
-    }
+  changeHighlightStyle: function (state, style) {
+    state.highlightStyle = style
   },
-  goTopPage: function (state, i) {
-    state.bookPages[state.bookIndex][i] = 0
+  changePage: function (state, [i, index]) {
+    state.charaIndexs[state.bookIndex][i] = index
   },
   changeSokudokuSpeed: function (state, speed) {
     state.sokudokuSpeed = speed
@@ -82,27 +73,6 @@ export const mutations = {
   },
   trueFlag: function (state) {
     state.flag = true
-  },
-  setUserId: function (state, id) {
-    state.userId = id
-  },
-  setEmail: function (state, mail) {
-    state.email = mail
-  },
-  setEmailTmp: function (state, mail) {
-    state.emailTmp = mail
-  },
-  setEmailAtLogin: function (state, emailAtLogin) {
-    state.emailAtLogin = emailAtLogin
-  },
-  setPassword: function (state, password) {
-    state.password = password
-  },
-  setUserInfoId: function (state, id) {
-    state.userInfoId = id
-  },
-  toggleRedirect: function (state, boolean) {
-    state.stopRedirect = boolean
   },
   addBookList: function (state, title) {
     state.userBookList.push(title)

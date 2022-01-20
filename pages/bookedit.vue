@@ -21,7 +21,7 @@
         <div class="column is-12 mt-2">
           <div class="columns is-centered is-mobile">
             <div class="column is-12">
-              <button @click="updateBook" class="button update-button">更新</button>
+              <button @click="updateBook" class="button update-button">{{register}}</button>
             </div>
           </div>
         </div>
@@ -89,6 +89,11 @@ export default {
       isChanged: false
     }
   },
+  computed: {
+    register: function () {
+      return this.isEdit ? '更新' : '新規登録'
+    }
+  },
   async mounted () {
     /* navbarに入れる値を受け渡します */
     this.$nuxt.$emit('updateRef', this.Ref)/* navbarの戻るボタンの遷移先の受け渡し */
@@ -123,10 +128,6 @@ export default {
     }
   },
   methods: {
-    updateNavbar () {
-      this.$nuxt.$emit('updateRef', this.Ref)/* navbarの戻るボタンの遷移先の受け渡し */
-      this.$nuxt.$emit('updateTitle', this.Title)/* navbarのタイトルの受け渡し */
-    },
     onSelectModal () {
       if (this.modal_class === 'is-active') {
         this.modal_class = ''
@@ -148,11 +149,14 @@ export default {
     },
     updateBook () {
       if (this.isEdit) {
+        const bodyTmp1 = this.bookBody.split(' ').join('')
+        const bodyTmp2 = bodyTmp1.split('　').join('')
+        const bodyTmp3 = bodyTmp2.split('\n').join(' ')
         this.$store.commit('data/updateBookList', this.bookTitle)
-        this.$store.commit('data/updateBookContent', this.bookBody)
+        this.$store.commit('data/updateBookContent', this.bodyTmp3)
       } else {
         this.$store.commit('data/addBookList', this.bookTitle)
-        this.$store.commit('data/addBookContent', this.bookBody)
+        this.$store.commit('data/addBookContent', this.bodyTmp3)
         this.$store.commit('data/addBook')
       }
       this.$router.push('booklist')

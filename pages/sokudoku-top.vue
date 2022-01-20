@@ -23,12 +23,16 @@
                 <div class="column is-2 has-text-weight-semibold has-text-right" style="font-size: 1.5em; color: #404a72;"><span @click="onSelectModal" id="close">×</span></div>
               </div>
             </div>
-            <div v-for="(bookList, index) in bookList" :key="bookList">
-              <hr>
-              <div class="column is-12" @click="selectBook(index)" style="cursor: pointer;">
-                <div class="columns is-mobile is-vcentered">
-                  <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkLetters[index]}}</div>
-                  <div class="column is-11" :style="modalStyles[index]">{{bookList}}</div>
+            <div class="column is-12"><input type="text" v-model="searchWord" placeholder="教材を検索"></div>
+            <hr style="margin: 0;">
+            <div style="max-height: 328px; overflow-x: scroll;">
+              <div v-for="(bookidtitle, index) in bookList" :key="bookidtitle" style="cursor: pointer;">
+                <hr v-if="index != 0" style="margin: 0;">
+                <div class="column is-12" @click="selectBook(index)">
+                  <div class="columns is-mobile is-vcentered">
+                    <div class="column is-1 has-text-weight-semibold has-text-centered" style="color: #f18d1d; transition: all 0.3s;">{{checkLetters[index]}}</div>
+                    <div class="column is-11" :style="modalStyles[index]">{{bookidtitle}}</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -40,12 +44,14 @@
             <figure class="image" style="display: flex; align-items: center;">
               <Min style="width: 40px; height: 40px;"/>
             </figure>
-            <vue-slider @change="changeSpeed" style="width: 70%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
+            <vue-slider style="width: 70%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
             <figure class="image" style="display: flex; align-items: center;">
               <Max style="width: 40px; height: 40px;"/>
             </figure>
+            <button class="guinness-button is-size-7" style="cursor: pointer;" @click="setGuinness">ギネス</button>
           </div>
         </div>
+        <div class="column is-12 is-size-7 has-text-centered" style="padding-bottom: 0; color: #404a72;">{{displaySpeed}}文字/分</div>
         <div class="column is-12 has-text-weight-semibold mt-3" style="color: #404a72;">文字サイズ</div>
         <div class="column is-12 mt-2">
           <div class="columns is-centered is-mobile">
@@ -76,11 +82,14 @@ export default {
   layout: 'defaultTop',
   data () {
     return {
+      bookBaseList: [],
       bookList: [],
       selectedTitle: undefined,
+      selectedId: undefined,
       modal_class: '',
       modalStyles: [],
       checkLetters: [],
+      searchWord: '',
       speed: 50,
       userId: '',
       fontsizes: {
@@ -88,6 +97,17 @@ export default {
         medium: false,
         large: false
       }
+    }
+  },
+  computed: {
+    displaySpeed: function () {
+      // return Math.floor(60000 / (-3.28 * Math.log(this.speed) + 17.50495821))
+      return Math.floor(6000 / (17.91196 * Math.exp(-0.0201 * this.speed))) * 10
+    }
+  },
+  watch: {
+    searchWord: function (newVal, oldVal) {
+      this.searchBook()
     }
   },
   components: {
@@ -99,7 +119,8 @@ export default {
   async mounted () {
     this.checkFontsize(this.$store.state.data.fontsize)
     // this.$store.commit('data/tmp')/* 保存しているページ数をリセットします。 */
-    this.bookList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
+    this.bookBaseList = this.$store.state.data.bookList.concat(this.$store.state.data.userBookList)
+    this.bookList = this.bookBaseList
     this.speed = this.$store.state.data.sokudokuSpeed/* スピードをvuexから取得します。 */
     this.$nuxt.$emit('updateTitle', '速読')/* navbarのタイトルの受け渡し */
     /* これはモーダルのデザインを設定する処理 */
@@ -112,9 +133,12 @@ export default {
     }
     this.selectBook(this.$store.state.data.bookIndex)
   },
+  destroyed () {
+    this.$store.commit('data/changeSokudokuSpeed', this.speed)
+  },
   methods: {
-    changeSpeed () {
-      this.$store.commit('data/changeSokudokuSpeed', this.speed)
+    setGuinness () {
+      this.speed = 100
     },
     changeFontsize (fontsize) {
       this.$store.commit('data/changeFontsize', fontsize)
@@ -155,12 +179,69 @@ export default {
           this.modalStyles[i].color = '#404a72'
         }
       }
+    },
+    searchBook () {
+      this.bookList = []
+      this.checkLetters = []
+      this.modalStyles = []
+      if (this.searchWord !== '') {
+        for (let i = 0; i < this.bookBaseList.length; i++) {
+          const title = this.bookBaseList[i]
+          const searchword = this.searchWord
+          if (title.indexOf(searchword) !== -1) {
+            this.bookList.push(this.bookBaseList[i])
+            this.modalStyles.push({
+              color: '#404a72',
+              transition: 'all 0.3s'
+            })
+            this.checkLetters.push('')
+          }
+        }
+        for (let i = 0; i < this.bookList.length; i++) {
+          if (this.bookList[i] === this.selectedTitle) {
+            this.checkLetters[i] = '✓'
+            this.modalStyles[i].color = '#f18d1d'
+          } else {
+            this.checkLetters[i] = ''
+            this.modalStyles[i].color = '#404a72'
+          }
+        }
+      } else {
+        this.bookList = this.bookBaseList
+        for (let i = 0; i < this.bookBaseList.length; i++) {
+          this.modalStyles.push({
+            color: '#404a72',
+            transition: 'all 0.3s'
+          })
+          this.checkLetters.push('')
+        }
+        for (let i = 0; i < this.bookList.length; i++) {
+          if (this.bookList[i] === this.selectedTitle) {
+            this.checkLetters[i] = '✓'
+            this.modalStyles[i].color = '#f18d1d'
+          } else {
+            this.checkLetters[i] = ''
+            this.modalStyles[i].color = '#404a72'
+          }
+        }
+      }
     }
   }
 }
 </script>
 
 <style>
+input {
+  width: 100%;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  padding: 6px;
+}
+
+input::placeholder {
+  color: #dbdbdb;
+}
+
 .vue-slider-dot-tooltip-inner.vue-slider-dot-tooltip-inner-top {
   border: #f18d1d;
   background-color: #f18d1d;
@@ -173,6 +254,16 @@ export default {
 
 .vue-slider-dot-handle {
   background-color: #f18d1d;
+}
+
+.guinness-button {
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  border: 1px solid #3362a8;
+  background: white;
+  color: #3362a8;
+  box-shadow: 0 2px 3px #00000029;
 }
 
 .select-button {
@@ -220,10 +311,6 @@ export default {
 
 #close:hover {
   cursor: pointer;
-}
-
-hr {
-  margin: 0;
 }
 
 #modal-content-top {
