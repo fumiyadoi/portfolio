@@ -44,7 +44,7 @@
             <figure class="image" style="display: flex; align-items: center;">
               <Min style="width: 40px; height: 40px;"/>
             </figure>
-            <vue-slider style="width: 70%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
+            <vue-slider style="width: 60%;" ref="slider" v-model="speed" :min=1 :max=100></vue-slider>
             <figure class="image" style="display: flex; align-items: center;">
               <Max style="width: 40px; height: 40px;"/>
             </figure>

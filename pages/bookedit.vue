@@ -148,15 +148,15 @@ export default {
       this.onSelectModal()
     },
     updateBook () {
+      const bodyTmp1 = this.bookBody.split(' ').join('')
+      const bodyTmp2 = bodyTmp1.split('　').join('')
+      const bodyTmp3 = bodyTmp2.split('\n').join(' ')
       if (this.isEdit) {
-        const bodyTmp1 = this.bookBody.split(' ').join('')
-        const bodyTmp2 = bodyTmp1.split('　').join('')
-        const bodyTmp3 = bodyTmp2.split('\n').join(' ')
         this.$store.commit('data/updateBookList', this.bookTitle)
-        this.$store.commit('data/updateBookContent', this.bodyTmp3)
+        this.$store.commit('data/updateBookContent', bodyTmp3)
       } else {
         this.$store.commit('data/addBookList', this.bookTitle)
-        this.$store.commit('data/addBookContent', this.bodyTmp3)
+        this.$store.commit('data/addBookContent', bodyTmp3)
         this.$store.commit('data/addBook')
       }
       this.$router.push('booklist')
